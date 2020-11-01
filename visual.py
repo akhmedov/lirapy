@@ -34,9 +34,15 @@ def show_port_location():
     TODO: bug fix by Denis
     """
 
-    point0 = np.array([0,0,3]) # point at one end
-    point1 = np.array([0,0,-3]) # point at other end
-    radius = 2 # radius of the base of conical surface
+    bigradius = 0.1684 # a
+    smallradius = 0.127 # b
+    focuslength = np.sqrt(bigradius**2 - smallradius**2) #c
+    apperture = smallradius**2/bigradius
+
+    point0 = np.array([0,0,0]) # point at one end
+    point1 = np.array([0,0,2*focuslength]) # point at other end
+    radius = apperture # radius of the base of conical surface
+
     vect_x, vect_y, vect_z = vector_set(point0, point1, radius)
     # vect_x=vect_z, vect_z=vect_x
     # surface ranges over t from 0 to length of axis and 0 to 2*pi
@@ -53,7 +59,7 @@ def show_port_location():
     ax.plot_surface(X, Y, Z, color='blue', alpha=0.6)
 
     for i in range(1,27):
-        point = location(i)
+        point = location(i, smallradius)
         ax.scatter(point.x, point.y, point.z, c='r', marker='o')
 
     ax.set_xlabel("x")

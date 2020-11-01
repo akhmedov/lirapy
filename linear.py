@@ -138,7 +138,7 @@ def duhamel(vt, rho, phi, z, tr, shape):
 # PLOTS #######################################################################
 
 
-def ex_vs_hz(rho=radius/2, phi=-np.pi/2, z=radius):
+def plot_ex_vs_hz(rho=radius/2, phi=-np.pi/2, z=radius):
 
     time = np.arange(9/10 * observed_from(rho, z), 10/9 * observed_to(rho, z), 1e-3)
     ex = [electric_x(vt, rho, phi, z) for vt in time]
@@ -154,7 +154,7 @@ def ex_vs_hz(rho=radius/2, phi=-np.pi/2, z=radius):
     plot.show()
 
 
-def hz_numerical(rho=radius/2, phi=-np.pi/2, z=radius):
+def plot_hz_numerical(rho=radius/2, phi=-np.pi/2, z=radius):
 
     time = np.arange(9/10 * observed_from(rho, z), 10/9 * observed_to(rho, z), 1e-2)
     hz0 = [magnetic_z(vt, rho, phi, z, 0) for vt in time]
@@ -173,15 +173,7 @@ def hz_numerical(rho=radius/2, phi=-np.pi/2, z=radius):
     plot.show()
 
 
-def sinc_furier_zone(rho=0, phi=0, z1=9.75, z2=15):
-    # t1 = np.arange(observed_from(rho, z1), tau0 + observed_to(rho, z1), 1e-3)
-    # ex1 = [duhamel(vt, rho, phi, z1, electric_x, shape=sinc) for vt in t1]
-    #
-    # plot.xlabel(r'$ ct, R $')
-    # plot.ylabel(r'$ E_x(t,z = 9.75R), V/m $')
-    # plot.plot(t1, ex1, color='black', linestyle='-')
-    # plot.grid(color='lightgrey', linestyle=':', linewidth=1)
-    # plot.show()
+def plot_sinc_furier_zone(rho=0, phi=0, z1=9.75, z2=15):
     t2 = np.arange(observed_from(rho, z2), tau0 + observed_to(rho, z2), 1e-3)
     ex2 = [duhamel(vt, rho, phi, z2, electric_x, shape=sinc) for vt in t2]
 
@@ -192,7 +184,7 @@ def sinc_furier_zone(rho=0, phi=0, z1=9.75, z2=15):
     plot.show()
 
 
-def example(rho=2*radius, phi=3*np.pi/4, z=2*radius):
+def plot_ex_from_time(rho=2*radius, phi=3*np.pi/4, z=2*radius):
     time = np.arange(5/10 * observed_from(rho, z), 10/5 * observed_to(rho, z), 1e-3)
     ex = [electric_x(vt, rho, phi, z) for vt in time]
     plot.xlabel(r'$ct, R$')
@@ -201,6 +193,3 @@ def example(rho=2*radius, phi=3*np.pi/4, z=2*radius):
     plot.legend()
     plot.show()
 
-
-if __name__ == '__main__':
-    example()
