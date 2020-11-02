@@ -3,7 +3,7 @@ from scipy.linalg import norm
 import numpy as np
 import matplotlib.pyplot as plot
 from mpl_toolkits.mplot3d import axes3d
-from cst_data import location, read_observer_data
+from cst_data import location, read_observer_data, Antenna
 
 
 def vector_set(p1, p2, r):
@@ -34,14 +34,9 @@ def show_port_location():
     TODO: bug fix by Denis
     """
 
-    bigradius = 0.1684 # a
-    smallradius = 0.127 # b
-    focuslength = np.sqrt(bigradius**2 - smallradius**2) #c
-    apperture = smallradius**2/bigradius
-
     point0 = np.array([0,0,0]) # point at one end
-    point1 = np.array([0,0,2*focuslength]) # point at other end
-    radius = apperture # radius of the base of conical surface
+    point1 = np.array([0,0,2*Antenna.focuslength]) # point at other end
+    radius = Antenna.apperture # radius of the base of conical surface
 
     vect_x, vect_y, vect_z = vector_set(point0, point1, radius)
     # vect_x=vect_z, vect_z=vect_x

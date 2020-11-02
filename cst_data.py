@@ -4,20 +4,26 @@ import numpy as np
 OBSERVERS = 3
 PORTS = 26
 
-def observer(observer_idx, b=0.127):
+class Antenna:
+    bigradius = 0.1684 # a
+    smallradius = 0.127 # b
+    focuslength = np.sqrt(bigradius**2 - smallradius**2) # c
+    apperture = smallradius**2 / bigradius
+
+def observer(observer_idx, a=Antenna.bigradius, c=Antenna.focuslength, R=Antenna.apperture):
 
     """
     TODO: documentation by Denis
     """
 
     observers = {
-        1: dict(x=0,y=0,z=0),
-        2: dict(x=0,y=0,z=0),
-        3: dict(x=0,y=0,z=0)
+        1: dict(x=0, y=0, z= a + c + 1*R),
+        2: dict(x=0, y=0, z= a + c + 2*R),
+        3: dict(x=0, y=0, z= a + c + 3*R)
     }
     return type("", (), observers[observer_idx])()
 
-def location(port_idx, b=0.127):
+def location(port_idx, b=Antenna.smallradius):
 
     """
     TODO: documentation by Denis

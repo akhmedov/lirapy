@@ -52,7 +52,7 @@ def time_sync(index, time, func):
 
 	Args:
 		index (nd.array). Array of intagers that shows index
-			of a port (one of 27).
+			of a port (one of 26).
 		time (nd.array). Array of arrays with sorted floating 
 			point numbers that coresponds to time of filed 
 			propagation. This's data from CST CSV file.
