@@ -3,7 +3,7 @@ from scipy.linalg import norm
 import numpy as np
 import matplotlib.pyplot as plot
 from mpl_toolkits.mplot3d import axes3d
-from cst_data import location, cst_data_exporter
+from cst_data import location, read_observer_data
 
 
 def vector_set(p1, p2, r):
@@ -68,29 +68,13 @@ def show_port_location():
     plot.show()
 
 
-def show_prob_data():
+def show_prob_data(observer_idx=1):
 
     """
     TODO: documentation by Denis
     """
 
-    index, time, func = [], [], []
-    parent_directory = 'observer1'
-
-    for i in range(1,27):
-
-        if i == 13: continue
-        file_name = 'ex_port' + str(i) + '.txt'
-        file_path = os.path.join(parent_directory, file_name)
-
-        if not os.path.exists(file_path):
-            print('[EE]: File with path does not exit - ', file_path)
-            sys.exit()
-
-        data = cst_data_exporter(file_path)
-        index.append(i)
-        time.append(data[0])
-        func.append(data[1])
+    index, time, func = read_observer_data(observer_idx)
 
     fig = plot.figure()
     ax = fig.gca(projection='3d')

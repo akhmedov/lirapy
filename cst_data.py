@@ -1,6 +1,21 @@
 import os, sys, csv
 import numpy as np
 
+OBSERVERS = 3
+PORTS = 26
+
+def observer(observer_idx, b=0.127):
+
+    """
+    TODO: documentation by Denis
+    """
+
+    observers = {
+        1: dict(x=0,y=0,z=0),
+        2: dict(x=0,y=0,z=0),
+        3: dict(x=0,y=0,z=0)
+    }
+    return type("", (), observers[observer_idx])()
 
 def location(port_idx, b=0.127):
 
@@ -57,4 +72,32 @@ def cst_data_exporter(file_path):
             time.append(float(line.split()[0]))
             func.append(float(line.split()[1]))
     return np.array(time), np.array(func)
+
+
+def read_observer_data(observer_idx):
+
+    """
+    TODO: documentation by Denis
+    """
+
+    index, time, func = [], [], []
+    parent_directory = 'observer' + str(observer_idx)
+    obs = observer(observer_idx)
+
+    for i in range(1,PORTS+1):
+
+        if i == 13: continue
+        file_name = 'ex_port' + str(i) + '.txt'
+        file_path = os.path.join(parent_directory, file_name)
+
+        if not os.path.exists(file_path):
+            print('[EE]: File with path does not exit - ', file_path)
+            sys.exit()
+
+        data = cst_data_exporter(file_path)
+        index.append(i)
+        time.append(data[0])
+        func.append(data[1])
+
+    return index, time, func
 
