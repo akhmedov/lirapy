@@ -51,7 +51,7 @@ def main():
 			sys.exit()
 		compute_observer(args.observer)
 
-	if len(sys.argv) == 1:
+	if len(sys.argv)==1:
 		parser.print_help(sys.stderr)
 		sys.exit(1)
 
