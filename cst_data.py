@@ -42,7 +42,7 @@ def location(port_idx, b=Antenna.smallradius):
         10: dict(x=b / 4, y=.1 * np.sin(3 * np.pi / 20),   z=.1 * np.cos(3 * np.pi / 20) + b),
         11: dict(x=b / 8, y=.1 * np.sin(3 * np.pi / 20),   z=.1 * np.cos(3 * np.pi / 20) + b),
         12: dict(x=b / 2, y=.1 * np.sin(np.pi / 20),       z=.1 * np.cos(np.pi / 20) + b),
-        13: dict(x=b / 8, y=.1 * np.sin(4 * np.pi / 20),   z=.1 * np.cos(4 * np.pi / 20) + b),
+        13: dict(x=b / 8, y=.1 * np.sin(4 * np.pi / 20),   z=.1 * np.cos(4 * np.pi / 20) + b), # prob data is not available
         14: dict(x=b / 4, y=.1 * np.sin(4 * np.pi / 20),   z=.1 * np.cos(4 * np.pi / 20) + b),
         15: dict(x=b / 8, y=.05 * np.sin(np.pi / 20),      z=.05 * np.cos(np.pi / 20) + b),
         16: dict(x=b / 3, y=.05 * np.sin(np.pi / 20),      z=.05 * np.cos(np.pi / 20) + b),

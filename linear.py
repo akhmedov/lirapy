@@ -7,8 +7,8 @@ import numpy as np
 from scipy import integrate
 import matplotlib
 from matplotlib import pyplot as plot
-matplotlib.rcParams['text.usetex'] = True
-
+# matplotlib.rcParams['text.usetex'] = True
+# use r'$ \LaTeX $' syntax for labels
 
 # CONSTANTS ###################################################################
 
@@ -144,10 +144,10 @@ def plot_ex_vs_hz(rho=radius/2, phi=-np.pi/2, z=radius):
     ex = [electric_x(vt, rho, phi, z) for vt in time]
     hz = [magnetic_z(vt, rho, phi, z, 0) for vt in time]
 
-    plot.xlabel(r'$ct, R$')
-    plot.plot(time, ex, label=r'$ E_x(t), V/R $', color='black', linestyle='-.')
-    plot.plot(time, hz, label=r'$ H_z(t), A/R $', color='black', linestyle='-')
-    plot.axvline(wave_from(rho, z), label=r'$ c t_{emm}, R $', color='gray', linestyle='--')
+    plot.xlabel('ct, R')
+    plot.plot(time, ex, label=r'E_x(t), V/R', color='black', linestyle='-.')
+    plot.plot(time, hz, label=r'H_z(t), A/R', color='black', linestyle='-')
+    plot.axvline(wave_from(rho, z), label=r'c t_{emm}, R', color='gray', linestyle='--')
     plot.grid(color='lightgrey', linestyle=':', linewidth=1)
     plot.yscale('symlog')
     plot.legend()
@@ -162,12 +162,12 @@ def plot_hz_numerical(rho=radius/2, phi=-np.pi/2, z=radius):
     hz2 = [magnetic_z(vt, rho, phi, z, 2) for vt in time]
     hz3 = [magnetic_z(vt, rho, phi, z, 3) for vt in time]
 
-    plot.xlabel(r'$ ct, R $')
-    plot.ylabel(r'$ H_z(ct), A/m $')
-    plot.plot(time, hz0, label=r'$ N = 0 $', color='black', linestyle='-.')
-    plot.plot(time, hz1, label=r'$ N = 1 $', color='black', linestyle='--')
-    plot.plot(time, hz2, label=r'$ N = 2 $', color='black', linestyle=':')
-    plot.plot(time, hz3, label=r'$ N = 3 $', color='black', linestyle='-')
+    plot.xlabel('ct, R')
+    plot.ylabel('H_z(ct), A/m')
+    plot.plot(time, hz0, label='N = 0', color='black', linestyle='-.')
+    plot.plot(time, hz1, label='N = 1', color='black', linestyle='--')
+    plot.plot(time, hz2, label='N = 2', color='black', linestyle=':')
+    plot.plot(time, hz3, label='N = 3', color='black', linestyle='-')
     plot.grid(color='lightgrey', linestyle=':', linewidth=1)
     plot.legend()
     plot.show()
@@ -177,8 +177,8 @@ def plot_sinc_furier_zone(rho=0, phi=0, z1=9.75, z2=15):
     t2 = np.arange(observed_from(rho, z2), tau0 + observed_to(rho, z2), 1e-3)
     ex2 = [duhamel(vt, rho, phi, z2, electric_x, shape=sinc) for vt in t2]
 
-    plot.xlabel(r'$ ct, R $')
-    plot.ylabel(r'$ E_x(t,z = 15R), V/m $')
+    plot.xlabel('ct, R')
+    plot.ylabel('E_x(t,z = 15R), V/m')
     plot.plot(t2, ex2, color='black', linestyle='-')
     plot.grid(color='lightgrey', linestyle=':', linewidth=1)
     plot.show()
@@ -187,8 +187,8 @@ def plot_sinc_furier_zone(rho=0, phi=0, z1=9.75, z2=15):
 def plot_ex_from_time(rho=2*radius, phi=3*np.pi/4, z=2*radius):
     time = np.arange(5/10 * observed_from(rho, z), 10/5 * observed_to(rho, z), 1e-3)
     ex = [electric_x(vt, rho, phi, z) for vt in time]
-    plot.xlabel(r'$ct, R$')
-    plot.plot(time, ex, label=r'$ E_x(t), V/R $', color='black', linestyle='-')
+    plot.xlabel('ct, R')
+    plot.plot(time, ex, label='E_x(t), V/R', color='black', linestyle='-')
     plot.grid(color='lightgrey', linestyle=':', linewidth=1)
     plot.legend()
     plot.show()

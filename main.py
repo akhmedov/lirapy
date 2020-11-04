@@ -1,6 +1,6 @@
 import os, sys, argparse
 from linear import plot_ex_vs_hz, plot_hz_numerical, plot_sinc_furier_zone, plot_ex_from_time
-from interpol import time_sync, compute_observer
+from interpol import compute_observer
 from visual import show_port_location, show_prob_data
 from cst_data import OBSERVERS, PORTS, Antenna, observer
 
@@ -33,6 +33,8 @@ def main():
 	parser.add_argument('--obslist', action='store_true', help=obslist_help, required=False)
 	geometry_help = 'Show antenna geometry'
 	parser.add_argument('--geometry', action='store_true', help=geometry_help, required=False)
+	plottest_help = 'Runs some visual tests'
+	parser.add_argument('--test', action='store_true', help=plottest_help, required=False)
 	args = parser.parse_args()
 
 	if args.obslist:
@@ -43,6 +45,9 @@ def main():
 	if args.geometry:
 		print('Total length: ', Antenna.bigradius + Antenna.focuslength)
 		print('Aperture radius: ', Antenna.apperture)
+
+	if args.test:
+		run_plot_tests()
 
 	if args.observer:
 		if 0 < args.observer > OBSERVERS:
@@ -57,5 +62,4 @@ def main():
 
 
 if __name__  == '__main__':
-	# run_plot_tests()
 	main()

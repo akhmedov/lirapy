@@ -54,7 +54,7 @@ def show_port_location():
     ax.plot_surface(X, Y, Z, color='blue', alpha=0.6)
 
     for i in range(1,27):
-        point = location(i, smallradius)
+        point = location(i, Antenna.smallradius)
         ax.scatter(point.x, point.y, point.z, c='r', marker='o')
 
     ax.set_xlabel("x")
