@@ -23,6 +23,7 @@ def observer(observer_idx, a=Antenna.bigradius, c=Antenna.focuslength, R=Antenna
     }
     return type("", (), observers[observer_idx])()
 
+
 def location(port_idx, b=Antenna.smallradius):
 
     """

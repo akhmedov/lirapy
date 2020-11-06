@@ -27,11 +27,10 @@ def vector_set(p1, p2, r):
     return v, n1, n2
 
 
-def show_port_location():
+def show_port_location(ports=None):
 
     """
     TODO: documentation by Denis
-    TODO: bug fix by Denis
     """
 
     point0 = np.array([0,0,0]) # point at one end
@@ -53,9 +52,13 @@ def show_port_location():
     ax=plot.subplot(111, projection='3d')
     ax.plot_surface(X, Y, Z, color='blue', alpha=0.6)
 
+    if ports:
+        for pt in ports:
+            ax.scatter(pt[0], pt[1], pt[2], c='green', marker='o')
+
     for i in range(1,27):
         point = location(i, Antenna.smallradius)
-        ax.scatter(point.x, point.y, point.z, c='r', marker='o')
+        ax.scatter(point.x, point.y, point.z, c='red', marker='o')
 
     ax.set_xlabel("x")
     ax.set_ylabel("y")

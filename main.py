@@ -11,7 +11,7 @@ def run_plot_tests():
 	TODO: documentation by Denis
 	"""
 
-	plot_ex_vs_hz()
+	# plot_ex_vs_hz()
 	# plot_hz_numerical()
 	# plot_sinc_furier_zone()
 	plot_ex_from_time()
@@ -35,7 +35,10 @@ def main():
 	parser.add_argument('--geometry', action='store_true', help=geometry_help, required=False)
 	plottest_help = 'Runs some visual tests'
 	parser.add_argument('--test', action='store_true', help=plottest_help, required=False)
+	help_ratio = 'Position of observer to compute nonlinear field'
+	parser.add_argument('--ratio', action='store',type=int, help=help_ratio, required=False, default=1)
 	args = parser.parse_args()
+
 
 	if args.obslist:
 		for i in range(OBSERVERS):
@@ -54,7 +57,7 @@ def main():
 			print('[EE] The observer ID is not valid!')
 			parser.print_help()
 			sys.exit()
-		compute_observer(args.observer)
+		compute_observer(args.observer,args.ratio)
 
 	if len(sys.argv)==1:
 		parser.print_help(sys.stderr)
