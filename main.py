@@ -1,8 +1,8 @@
 import os, sys, argparse
 from linear import plot_ex_vs_hz, plot_hz_numerical, plot_sinc_furier_zone, plot_ex_from_time
-from interpol import compute_observer
+from process import compute_observer
 from visual import show_port_location, show_prob_data
-from cst_data import OBSERVERS, PORTS, Antenna, observer
+from cst_data import OBSERVERS, Antenna, observer
 
 
 def run_plot_tests():
@@ -11,9 +11,9 @@ def run_plot_tests():
 	TODO: documentation by Denis
 	"""
 
-	# plot_ex_vs_hz()
-	# plot_hz_numerical()
-	# plot_sinc_furier_zone()
+	plot_ex_vs_hz()
+	plot_hz_numerical()
+	plot_sinc_furier_zone()
 	plot_ex_from_time()
 	show_port_location()
 	show_prob_data()
@@ -36,7 +36,7 @@ def main():
 	plottest_help = 'Runs some visual tests'
 	parser.add_argument('--test', action='store_true', help=plottest_help, required=False)
 	help_ratio = 'Position of observer to compute nonlinear field'
-	parser.add_argument('--ratio', action='store',type=int, help=help_ratio, required=False, default=1)
+	parser.add_argument('--ratio', action='store',type=int, help=help_ratio, required=False, default=0)
 	args = parser.parse_args()
 
 
@@ -57,9 +57,9 @@ def main():
 			print('[EE] The observer ID is not valid!')
 			parser.print_help()
 			sys.exit()
-		compute_observer(args.observer,args.ratio)
+		compute_observer(args.observer, args.ratio)
 
-	if len(sys.argv)==1:
+	if len(sys.argv) == 1:
 		parser.print_help(sys.stderr)
 		sys.exit(1)
 

@@ -1,11 +1,8 @@
 from scipy.interpolate import griddata
-from mpl_toolkits.mplot3d import axes3d 
 from matplotlib import pyplot as plot
-from scipy.linalg import norm
 import numpy as np
-import os, sys, random
-from scipy.constants import speed_of_light as C
-from cst_data import OBSERVERS, PORTS, observer, location, read_observer_data
+import random
+from cst_data import location, read_observer_data
 from visual import show_prob_data, show_port_location
 
 
@@ -16,32 +13,12 @@ def compute_observer(observer_idx, interp_ratio):
 	"""
 
 	index, time, func = read_observer_data(observer_idx)
-
 	show_prob_data(observer_idx)
-
 	index, time, func = timerange_sync(index, time, func)
 	port_location, prob_time, prob_func = mirror_and_interpol5D(index, time, func, interp_ratio)
-
 	show_port_location(port_location)
-
-	# for pose, time, func in zip(port_location, prob_time, prob_func):
-	# 	index = np.where(np.isnan(func))
-	# 	if index[0].shape[0] > 0:
-	# 		print('Location:', pose, 'Time:', time[index[0]])
-	# 		print()
-
-	i = 0
-	for pose, time, func in zip(port_location, prob_time, prob_func):
-		i += 1
-		plot.plot(time, func)
-		if i < 100: 
-			plot.title('Input: ' + str(pose))
-		else:
-			plot.title('Auto: ' + str(pose))
-		plot.show()
-
 	t, Ex = filed_superpose(prob_time, prob_func)
-	plot.plot(t,Ex)
+	plot.plot(t, Ex)
 	plot.show()
 
 
@@ -68,24 +45,11 @@ def timerange_sync(index, time, func):
 		for each prob.
 	"""
 
-	new_time, new_func = [], []
-
-	for idx, tm, fn in zip(index, time, func):
-		port = location(idx)
-		time_dlt = np.sqrt(port.x**2 + port.y**2 + port.z**2) / C
-		new_tm, new_fn = tm, fn
-		new_tm += time_dlt
-		tm_head = np.arange(0, time_dlt, tm[1]-tm[0])
-		fn_head = np.zeros(tm_head.shape, dtype=float) 
-		np.insert(new_tm, 0, tm_head)
-		np.insert(new_fn, 0, fn_head)
-		new_time.append(new_tm)
-		new_func.append(new_fn)
-
+	new_time, new_func = time, func
 	max_allowed_time = min(i[-1] for i in new_time)
-	for tm, fn in zip(new_time, new_func):
-		tm = tm[tm <= max_allowed_time]
-		fn = fn[:tm.shape[0]]
+	for i in range(len(new_time)):
+		new_time[i] = new_time[i][new_time[i] <= max_allowed_time]
+		new_func[i] = new_func[i][:new_time[i].shape[0]]
 
 	return index, new_time, new_func
 
@@ -189,22 +153,23 @@ def mirror_and_interpol5D(index, time, func, ratio):
 				points.append(arg)
 				values.append(f)
 
-	rand_cart_pose = rand_conical_grid(ratio * len(func))
-	all_is_nan_of = lambda nparray: np.argwhere(np.isnan(nparray)).shape[0] == nparray.shape[0]
-	lowest_density_index = get_max_time_step_intex(time)
-	max_time = time[lowest_density_index][-1]
-	dlt_time = time[lowest_density_index][1]
-	for pt in rand_cart_pose:
-		prob_time = np.arange(0,max_time,dlt_time)
-		request = [np.array([t, pt[0], pt[1], pt[2]]) for t in prob_time]
-		prob_val = griddata(points, values, request)
-		if not all_is_nan_of(prob_val):
-			prob_val[0] = 0
-			cart_pose.extend(mirror_point3D(pt))
-			res_time.extend(4 * [prob_time])
-			res_func.extend(4 * [prob_val])
-		else:
-			print('[WW] Interpolation failed for point:', pt[0], pt[1], pt[2])
+	if ratio != 0:
+		rand_cart_pose = rand_conical_grid(ratio * len(func))
+		all_is_nan_of = lambda nparray: np.argwhere(np.isnan(nparray)).shape[0] == nparray.shape[0]
+		lowest_density_index = get_max_time_step_intex(time)
+		max_time = time[lowest_density_index][-1]
+		dlt_time = time[lowest_density_index][1]
+		for pt in rand_cart_pose:
+			prob_time = np.arange(0,max_time, dlt_time)
+			request = [np.array([t, pt[0], pt[1], pt[2]]) for t in prob_time]
+			prob_val = griddata(points, values, request)
+			if not all_is_nan_of(prob_val):
+				prob_val[0] = 0
+				cart_pose.extend(mirror_point3D(pt))
+				res_time.extend(4 * [prob_time])
+				res_func.extend(4 * [prob_val])
+			else:
+				print('[WW] Interpolation failed for point:', pt[0], pt[1], pt[2])
 
 	return cart_pose, res_time, res_func
 
