@@ -3,7 +3,7 @@ from scipy.linalg import norm
 import numpy as np
 import matplotlib.pyplot as plot
 from mpl_toolkits.mplot3d import axes3d
-from cst_data import location, read_observer_data, Antenna
+from cst_data import location, read_nonlinear_observer_data, Antenna
 
 
 def vector_set(p1, p2, r):
@@ -72,7 +72,7 @@ def show_prob_data(observer_idx=1):
     TODO: documentation by Denis
     """
 
-    index, time, func = read_observer_data(observer_idx)
+    index, time, func = read_nonlinear_observer_data(observer_idx)
 
     fig = plot.figure()
     ax = fig.gca(projection='3d')

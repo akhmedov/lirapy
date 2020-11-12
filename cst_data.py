@@ -4,11 +4,13 @@ import numpy as np
 OBSERVERS = 3
 PORTS = 26
 
+
 class Antenna:
     bigradius = 0.1684 # a
     smallradius = 0.127 # b
     focuslength = np.sqrt(bigradius**2 - smallradius**2) # c
     apperture = smallradius**2 / bigradius
+
 
 def observer(observer_idx, a=Antenna.bigradius, c=Antenna.focuslength, R=Antenna.apperture):
 
@@ -81,7 +83,14 @@ def cst_data_exporter(file_path):
     return np.array(time), np.array(func)
 
 
-def read_observer_data(observer_idx):
+def read_linear_observer_data(observer_idx):
+    # filename = 'dir/file.txt'
+    # time, func = cst_data_exporter(filename)
+    # return time, func
+    pass
+
+
+def read_nonlinear_observer_data(observer_idx):
 
     """
     TODO: documentation by Denis
@@ -89,9 +98,8 @@ def read_observer_data(observer_idx):
 
     index, time, func = [], [], []
     parent_directory = 'observer' + str(observer_idx)
-    obs = observer(observer_idx)
 
-    for i in range(1,PORTS+1):
+    for i in range(1, PORTS+1):
 
         if i == 13: continue
         file_name = 'ex_port' + str(i) + '.txt'

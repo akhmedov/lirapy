@@ -2,7 +2,7 @@ from scipy.interpolate import griddata
 from matplotlib import pyplot as plot
 import numpy as np
 import random
-from cst_data import location, read_observer_data
+from cst_data import location, read_nonlinear_observer_data, read_linear_observer_data
 from visual import show_prob_data, show_port_location
 
 
@@ -12,13 +12,27 @@ def compute_observer(observer_idx, interp_ratio):
 	TODO: documentation by Denis
 	"""
 
-	index, time, func = read_observer_data(observer_idx)
+	index, time, func = read_nonlinear_observer_data(observer_idx)
 	show_prob_data(observer_idx)
 	index, time, func = timerange_sync(index, time, func)
 	port_location, prob_time, prob_func = mirror_and_interpol5D(index, time, func, interp_ratio)
 	show_port_location(port_location)
-	t, Ex = filed_superpose(prob_time, prob_func)
-	plot.plot(t, Ex)
+	nonlinear_time, nonlinear_Ex = filed_superpose(prob_time, prob_func)
+	plot.plot(nonlinear_time, nonlinear_Ex)
+	plot.title('Nonlinear amendment for radiation')
+	plot.xlabel('time')
+	plot.ylabel('Ex')
+	plot.show()
+
+	linear_time, linear_Ex = read_linear_observer_data(observer_idx)  #TODO
+	time = [linear_time, nonlinear_time]
+	field = [linear_Ex, nonlinear_Ex]
+	_, time, func = timerange_sync(None, time, func)
+	time, field = filed_superpose(time, field)
+	plot.plot(time, field)
+	plot.title('Superposition for linear and nonlinear field')
+	plot.xlabel('time')
+	plot.ylabel('Ex')
 	plot.show()
 
 
