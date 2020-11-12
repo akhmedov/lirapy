@@ -24,7 +24,7 @@ def compute_observer(observer_idx, interp_ratio):
 	plot.ylabel('Ex')
 	plot.show()
 
-	linear_time, linear_Ex = read_linear_observer_data(observer_idx)  #TODO
+	linear_time, linear_Ex = read_linear_observer_data(observer_idx)  #TODO: debug
 	time = [linear_time, nonlinear_time]
 	field = [linear_Ex, nonlinear_Ex]
 	_, time, func = timerange_sync(None, time, func)

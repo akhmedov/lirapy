@@ -84,10 +84,9 @@ def cst_data_exporter(file_path):
 
 
 def read_linear_observer_data(observer_idx):
-    # filename = 'dir/file.txt'
-    # time, func = cst_data_exporter(filename)
-    # return time, func
-    pass
+    filename = 'dir/file.txt'
+    time, func = cst_data_exporter(filename)
+    return time, func
 
 
 def read_nonlinear_observer_data(observer_idx):
