@@ -1,4 +1,4 @@
-import os, sys, argparse
+import sys, argparse
 from linear import plot_ex_vs_hz, plot_hz_numerical, plot_sinc_furier_zone, plot_ex_from_time
 from process import compute_observer
 from visual import show_port_location, show_prob_data

@@ -1,4 +1,3 @@
-import os, sys, csv
 from scipy.linalg import norm
 import numpy as np
 import matplotlib.pyplot as plot
@@ -47,7 +46,10 @@ def show_port_location(ports=None):
     # use meshgrid to make 2d arrays
     t, theta2 = np.meshgrid(t, theta)
     rsample,theta = np.meshgrid(rsample, theta)
-    X, Y, Z = [point0[i] + vect_x[i] * t + radius * t * np.sin(theta2) * vect_y[i] + radius * t * np.cos(theta2) * vect_z[i] for i in [0, 1, 2]]
+    X, Y, Z = [point0[i] + vect_x[i] * t +
+               radius * t * np.sin(theta2) * vect_y[i] +
+               radius * t * np.cos(theta2) * vect_z[i]
+               for i in [0, 1, 2]]
 
     ax=plot.subplot(111, projection='3d')
     ax.plot_surface(X, Y, Z, color='blue', alpha=0.6)
@@ -56,7 +58,7 @@ def show_port_location(ports=None):
         for pt in ports:
             ax.scatter(pt[0], pt[1], pt[2], c='green', marker='o')
 
-    for i in range(1,27):
+    for i in range(1, 27):
         point = location(i, Antenna.smallradius)
         ax.scatter(point.x, point.y, point.z, c='red', marker='o')
 
@@ -88,3 +90,11 @@ def show_prob_data(observer_idx=1):
     ax.legend()
     plot.show()
 
+
+def simple_plot(xdata, ydata, title, xlabel, ylabel):
+    plot.plot(xdata, ydata)
+    plot.title(title)
+    plot.xlabel(xlabel)
+    plot.ylabel(ylabel)
+    plot.grid()
+    plot.show()

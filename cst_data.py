@@ -1,4 +1,4 @@
-import os, sys, csv
+import os, sys
 import numpy as np
 
 OBSERVERS = 3
@@ -83,9 +83,16 @@ def cst_data_exporter(file_path):
     return np.array(time), np.array(func)
 
 
+def read_port_timedepth():
+    filepath = os.path.join('linear_observer', 'linear_signal.txt')
+    time, func = cst_data_exporter(filepath)
+    return time, func
+
+
 def read_linear_observer_data(observer_idx):
-    filename = 'dir/file.txt'
-    time, func = cst_data_exporter(filename)
+    filename = 'linear_observer' + str(observer_idx) + '.txt'
+    filepath = os.path.join('linear_observer', filename)
+    time, func = cst_data_exporter(filepath)
     return time, func
 
 
@@ -114,4 +121,3 @@ def read_nonlinear_observer_data(observer_idx):
         func.append(data[1])
 
     return index, time, func
-

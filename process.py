@@ -1,9 +1,8 @@
 from scipy.interpolate import griddata
-from matplotlib import pyplot as plot
 import numpy as np
 import random
-from cst_data import location, read_nonlinear_observer_data, read_linear_observer_data
-from visual import show_prob_data, show_port_location
+from cst_data import location, read_nonlinear_observer_data, read_linear_observer_data, read_port_timedepth
+from visual import show_prob_data, show_port_location, simple_plot
 
 
 def compute_observer(observer_idx, interp_ratio):
@@ -12,28 +11,26 @@ def compute_observer(observer_idx, interp_ratio):
 	TODO: documentation by Denis
 	"""
 
+	time, current = read_port_timedepth()
+	simple_plot(time, current, 'Source timedep', 'time, sec', 'Normed current')
+
 	index, time, func = read_nonlinear_observer_data(observer_idx)
 	show_prob_data(observer_idx)
 	index, time, func = timerange_sync(index, time, func)
 	port_location, prob_time, prob_func = mirror_and_interpol5D(index, time, func, interp_ratio)
 	show_port_location(port_location)
 	nonlinear_time, nonlinear_Ex = filed_superpose(prob_time, prob_func)
-	plot.plot(nonlinear_time, nonlinear_Ex)
-	plot.title('Nonlinear amendment for radiation')
-	plot.xlabel('time')
-	plot.ylabel('Ex')
-	plot.show()
+	simple_plot(nonlinear_time, nonlinear_Ex, 'Nonlinear amendment for radiation', 'time, sec', 'Ex, A/m')
 
-	linear_time, linear_Ex = read_linear_observer_data(observer_idx)  #TODO: debug
+	linear_time, linear_Ex = read_linear_observer_data(observer_idx)
+	simple_plot(linear_time, linear_Ex, 'Nonlinear amendment for radiation', 'time, sec', 'Ex, A/m')
+
 	time = [linear_time, nonlinear_time]
 	field = [linear_Ex, nonlinear_Ex]
 	_, time, func = timerange_sync(None, time, func)
+
 	time, field = filed_superpose(time, field)
-	plot.plot(time, field)
-	plot.title('Superposition for linear and nonlinear field')
-	plot.xlabel('time')
-	plot.ylabel('Ex')
-	plot.show()
+	simple_plot(time, field, 'Superposition for linear and nonlinear field', 'time, sec', 'Ex, A/m')
 
 
 def timerange_sync(index, time, func):
